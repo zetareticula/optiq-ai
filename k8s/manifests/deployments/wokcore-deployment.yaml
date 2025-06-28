@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wokcore
+  namespace: optiq
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wokcore
+  template:
+    metadata:
+      labels:
+        app: wokcore
+    spec:
+      containers:
+      - name: wokcore
+        image: optiq-ai/wokcore:latest
+        ports:
+        - containerPort: 8081
+        env:
+        - name: RUST_LOG
+          value: "info"
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1024Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10

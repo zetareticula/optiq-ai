@@ -1,0 +1,57 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: wokdesigns.optiq.ai
+spec:
+  group: optiq.ai
+  names:
+    kind: WokDesign
+    plural: wokdesigns
+    singular: wokdesign
+    shortNames:
+    - wd
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              workload:
+                type: object
+                properties:
+                  read_ratio:
+                    type: number
+                  write_ratio:
+                    type: number
+                  skew_factor:
+                    type: number
+              infra:
+                type: object
+                properties:
+                  cloud:
+                    type: string
+                  budget:
+                    type: number
+              design:
+                type: object
+                properties:
+                  index:
+                    type: string
+          status:
+            type: object
+            properties:
+              generated_code:
+                type: string
+              metrics:
+                type: object
+                properties:
+                  latency_ms:
+                    type: number
+                  throughput_ops:
+                    type: number
