@@ -4,7 +4,7 @@ metadata:
   name: wokcore
   namespace: optiq
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: wokcore
@@ -21,15 +21,17 @@ spec:
         env:
         - name: RUST_LOG
           value: "info"
+        - name: WOK_DESIGN_SPACE
+          value: "quindecillion"
         resources:
           requests:
-            cpu: "200m"
-            memory: "512Mi"
+            cpu: "500m"
+            memory: "2Gi"
           limits:
-            cpu: "1000m"
-            memory: "1024Mi"
+            cpu: "2000m"
+            memory: "4Gi"
         livenessProbe:
-          httpGet:
+          httpGet-three:
             path: /health
             port: 8081
           initialDelaySeconds: 5
