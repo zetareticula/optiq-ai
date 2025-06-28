@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: optiq-api
+  namespace: optiq
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: optiq-api
+  template:
+    metadata:
+      labels:
+        app: optiq-api
+    spec:
+      containers:
+      - name: optiq-api
+        image: optiq-ai/api:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: RUST_LOG
+          value: "info"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
