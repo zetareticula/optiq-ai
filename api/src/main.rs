@@ -2,8 +2,16 @@ use axum::{routing::get, Router};
 use std::net::SocketAddr;
 use tokio::sync::mpsc;
 use tracing::info;
+use tracing_subscriber;
+use axum::extract::State;
+use axum::response::IntoResponse;
 
+// Main entry point for the API server
+// This server will handle requests to diagnose query plans
+// and will be integrated with PlanSense for query analysis.
 #[tokio::main]
+#[allow(unused_variables)]
+#[allow(unused_imports)]
 async fn main() {
     // Initialize tracing for logging
     tracing_subscriber::fmt::init();
